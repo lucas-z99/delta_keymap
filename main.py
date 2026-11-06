@@ -2,38 +2,44 @@ import keyboard
 
 word_list = {
     # set
-    "\\not": "¬",
-    "\\belong": ["∈", "∉"],
-    "\\and": "∧",
+    "not": "¬",
+    "belong": ["∈", "∉"],
+    "and": "∧",
     # sets
-    "\\subset": ["⊆", "⊂"],
-    "\\include": ["⊇", "⊃"],
-    "\\union": "∪",
-    "\\inter": "∩",
-    "\\empty": "∅",
-    "\\forall": "∀",
-    "\\thereexist": "∃",
+    "subset": ["⊆", "⊂"],
+    "include": ["⊇", "⊃"],
+    "union": "∪",
+    "inter": "∩",
+    "empty": "∅",
+    "forall": "∀",
+    "thereexist": "∃",
     # greek
-    "\\alpha": ["α"],
-    "\\beta": ["β"],
-    "\\gamma": ["γ", "Γ"],
-    "\\delta": ["Δ", "δ"],
-    "\\epsilon": ["ε"],
-    "\\zeta": ["ζ"],
-    "\\theta": ["θ"],
-    "\\lambda": ["λ"],
-    "\\mu": ["μ"],
-    "\\pi": ["π", "∏"],
-    "\\sigma": ["∑"],
-    "\\tau": ["τ"],
-    "\\phi": ["φ", "Φ"],
-    "\\psi": ["ψ", "Ψ"],
-    "\\omega": ["Ω"],
+    "alpha": ["α"],
+    "beta": ["β"],
+    "gamma": ["γ", "Γ"],
+    "delta": ["Δ", "σ", "δ"],
+    "epsilon": ["ε"],
+    "zeta": ["ζ"],
+    "theta": ["θ"],
+    "lambda": ["λ"],
+    "mu": ["μ"],
+    "pi": ["π", "∏"],
+    "sigma": ["∑", "σ"],
+    "tau": ["τ"],
+    "phi": ["φ", "Φ", "ϕ"],
+    "psi": ["ψ", "Ψ"],
+    "omega": ["Ω"],
     # others
-    "\\infty": "∞",
-    "\\integral": "∫",
-    "\\approx": "≈",
+    "infty": "∞",
+    "integral": "∫",
+    "approx": "≈",
+    "nabla": "∇",
+    # special
+    "xhat": "x̂",
+    "=": "≡",
 }
+
+starter = "."
 
 buffer = ""
 in_use = True
@@ -50,8 +56,9 @@ def on_key_event(event):
             in_use = not in_use
             buffer = ""
             print(f"{in_use=}")
+
         if not in_use:
-            pass
+            return
 
         if event.name == "backspace":
             buffer = buffer[:-1]
@@ -78,9 +85,10 @@ def on_key_event(event):
             buffer += event.name
 
             for word, options in word_list.items():  # replace the word with symbol
-                if buffer.endswith(word):
+                sword = starter + word
+                if buffer.endswith(sword):
                     symbol = options[0] if type(options) == list else options
-                    replace(len(word), symbol)
+                    replace(len(sword), symbol)
 
                     buffer = ""
                     last_word = word
@@ -104,8 +112,8 @@ for w1, _ in word_list.items():
 # start
 print("---  Delta Map  ---")
 print("Try:")
-print("    \\theta   ->  Θ")
-print("    \\subset  ->  ⊆")
+print(f"    {starter}theta   ->  Θ")
+print(f"    {starter}subset  ->  ⊆")
 print("(ESC to toggle ON/OFF)\n")
 
 
